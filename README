@@ -1,0 +1,11 @@
+# LinuxCNC on Raspberry Pi 4 Model B GPIO
+
+This repo contains a rudimentary LinuxCNC configuration for using a Pi 4B to drive stepper motors via GPIO.
+I've tried to add extra verbose comments to aid in understanding, as some of the configuration is not trivial.
+This has not been tested with actual hardware yet.
+
+Reference I used to create this:
+https://linuxcnc.org/
+https://github.com/LinuxCNC/linuxcnc/blob/master/src/hal/drivers/hal_pi_gpio_demo.hal
+https://github.com/ChrisWag91/PI-LCNC/
+

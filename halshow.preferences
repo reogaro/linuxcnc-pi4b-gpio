@@ -1,0 +1,33 @@
+# Halshow settings
+# This file is generated automatically.
+wm geometry . 700x475+543+95
+placeFrames 0.3
+set ::ratio 0.3
+set ::old_w_leftf 160
+set ::watchlist {
+    pin+hal_pi_gpio.pin-03-out
+    pin+hal_pi_gpio.pin-05-out
+    pin+hal_pi_gpio.pin-07-out
+    pin+hal_pi_gpio.pin-08-in
+    pin+hal_pi_gpio.pin-10-in
+    pin+hal_pi_gpio.pin-11-out
+    pin+hal_pi_gpio.pin-12-in
+    pin+hal_pi_gpio.pin-13-out
+    pin+hal_pi_gpio.pin-15-out
+    pin+hal_pi_gpio.pin-19-out
+    pin+hal_pi_gpio.pin-21-out
+    pin+hal_pi_gpio.pin-23-out
+    pin+hal_pi_gpio.pin-29-out
+    pin+hal_pi_gpio.pin-31-out
+    pin+hal_pi_gpio.pin-33-out
+    pin+hal_pi_gpio.pin-37-out
+    pin+hal_pi_gpio.read.time
+    pin+hal_pi_gpio.write.time
+}
+set ::workmode watchhal
+set ::watchInterval 100
+set ::col1_width 100
+set ::ffmts 
+set ::ifmts 
+set ::alwaysOnTop 0
+set ::autoSaveWatchlist 1
