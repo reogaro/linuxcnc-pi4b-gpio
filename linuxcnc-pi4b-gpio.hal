@@ -65,6 +65,9 @@ loadrt stepgen step_type=0,0,0,0
 # Load the PWM (Pulse Width Modulation) generator module with one output of type 0
 loadrt pwmgen output_type=0
 
+# invert the enable signal
+loadrt not names=xinvert,yinvert,zinvert,ainvert
+
 # Add functions to threads
 addf motion-command-handler servo-thread
 addf motion-controller servo-thread
@@ -107,32 +110,43 @@ net min-home-z => joint.2.home-sw-in
 
 # Motor Outputs
 # Note: Pin numbers are Raspberry Pi pin numbers, not GPIO numbers
+# The enable signals are inverted
 
 net xstep     => hal_pi_gpio.pin-03-out
 net xdir      => hal_pi_gpio.pin-05-out
-net xenable   => hal_pi_gpio.pin-07-out
+net xenable   => xinvert.in
+net xinvert.out => hal_pi_gpio.pin-07-out
+
 net ystep     => hal_pi_gpio.pin-11-out
 net ydir      => hal_pi_gpio.pin-13-out
-net yenable   => hal_pi_gpio.pin-15-out
+net yenable   => yinvert.in
+net yinvert.out => hal_pi_gpio.pin-15-out
+
 net zstep     => hal_pi_gpio.pin-19-out
 net zdir      => hal_pi_gpio.pin-21-out
-net zenable   => hal_pi_gpio.pin-23-out
+net zenable   => zinvert.in
+net zinvert.out => hal_pi_gpio.pin-23-out
+
 net astep     => hal_pi_gpio.pin-29-out
 net adir      => hal_pi_gpio.pin-31-out
-net aenable   => hal_pi_gpio.pin-33-out
+net aenable   => ainvert.in
+net ainvert.out => hal_pi_gpio.pin-33-out
 
 ##################################################################
 #           Axis Configuation
 ##################################################################
 
+# Current timings: DRV8825
+# get yours at:
+# http://wiki.linuxcnc.org/cgi-bin/wiki.pl?Stepper_Drive_Timing
 
 # Configure step generator for each joint
 # Joint 0 (X axis)
 setp stepgen.0.position-scale [JOINT_0]SCALE
-setp stepgen.0.steplen 1
-setp stepgen.0.stepspace 0
-setp stepgen.0.dirhold 26500
-setp stepgen.0.dirsetup 26500
+setp stepgen.0.steplen 1900
+setp stepgen.0.stepspace 1900
+setp stepgen.0.dirhold 650
+setp stepgen.0.dirsetup 650
 setp stepgen.0.maxaccel [JOINT_0]STEPGEN_MAXACCEL
 net xpos-cmd joint.0.motor-pos-cmd => stepgen.0.position-cmd
 net xpos-fb stepgen.0.position-fb => joint.0.motor-pos-fb
@@ -142,10 +156,10 @@ net xenable joint.0.amp-enable-out => stepgen.0.enable
 
 # Joint 1 (Y axis)
 setp stepgen.1.position-scale [JOINT_1]SCALE
-setp stepgen.1.steplen 1
-setp stepgen.1.stepspace 0
-setp stepgen.1.dirhold 26500
-setp stepgen.1.dirsetup 26500
+setp stepgen.1.steplen 1900
+setp stepgen.1.stepspace 1900
+setp stepgen.1.dirhold 650
+setp stepgen.1.dirsetup 650
 setp stepgen.1.maxaccel [JOINT_1]STEPGEN_MAXACCEL
 net ypos-cmd joint.1.motor-pos-cmd => stepgen.1.position-cmd
 net ypos-fb stepgen.1.position-fb => joint.1.motor-pos-fb
@@ -155,10 +169,10 @@ net yenable joint.1.amp-enable-out => stepgen.1.enable
 
 # Joint 2 (Z axis)
 setp stepgen.2.position-scale [JOINT_2]SCALE
-setp stepgen.2.steplen 1
-setp stepgen.2.stepspace 0
-setp stepgen.2.dirhold 26500
-setp stepgen.2.dirsetup 26500
+setp stepgen.2.steplen 1900
+setp stepgen.2.stepspace 1900
+setp stepgen.2.dirhold 650
+setp stepgen.2.dirsetup 650
 setp stepgen.2.maxaccel [JOINT_2]STEPGEN_MAXACCEL
 net zpos-cmd joint.2.motor-pos-cmd => stepgen.2.position-cmd
 net zpos-fb stepgen.2.position-fb => joint.2.motor-pos-fb
@@ -168,10 +182,10 @@ net zenable joint.2.amp-enable-out => stepgen.2.enable
 
 # Joint 3 (A axis)
 setp stepgen.3.position-scale [JOINT_3]SCALE
-setp stepgen.3.steplen 1
-setp stepgen.3.stepspace 0
-setp stepgen.3.dirhold 26500
-setp stepgen.3.dirsetup 26500
+setp stepgen.3.steplen 1900
+setp stepgen.3.stepspace 1900
+setp stepgen.3.dirhold 650
+setp stepgen.3.dirsetup 650
 setp stepgen.3.maxaccel [JOINT_3]STEPGEN_MAXACCEL
 net apos-cmd joint.3.motor-pos-cmd => stepgen.3.position-cmd
 net apos-fb stepgen.3.position-fb => joint.3.motor-pos-fb
